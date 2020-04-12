@@ -2,24 +2,22 @@ const covid19ImpactEstimator = (data) => ({
   data,
   impact: {
     currentlyInfected: Math.floor(data.reportedCases * 10),
-    infectionsByRequestedTime: Math.floor(
-      covid19ImpactEstimator.impact.currentlyInfected * 512
-    ),
+    infectionsByRequestedTime: Math.floor(this.impact.currentlyInfected * 512),
     severeCasesByRequestedTime: Math.floor(
-      (15 / 100) * covid19ImpactEstimator.impact.infectionsByRequestedTime
+      (15 / 100) * this.impact.infectionsByRequestedTime
     ),
     hospitalBedsByRequestedTime: Math.floor(
       (35 / 100) * data.totalHospitalBeds
-        - covid19ImpactEstimator.impact.severeCasesByRequestedTime
+        - this.impact.severeCasesByRequestedTime
     ),
     casesForICUByRequestedTime: Math.floor(
-      (5 / 100) * covid19ImpactEstimator.impact.infectionsByRequestedTime
+      (5 / 100) * this.impact.infectionsByRequestedTime
     ),
     casesForVentilatorsByRequestedTime: Math.floor(
-      (2 / 100) * covid19ImpactEstimator.impact.infectionsByRequestedTime
+      (2 / 100) * this.impact.infectionsByRequestedTime
     ),
     dollarsInFlight: Math.floor(
-      (covid19ImpactEstimator.impact.infectionsByRequestedTime
+      (this.impact.infectionsByRequestedTime
         * data.region.avgDailyIncomePopulation
         * data.region.avgDailyIncomeInUSD)
         / 30
