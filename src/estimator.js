@@ -128,7 +128,7 @@ const covid19ImpactEstimator = (data) => {
   } */
 // your severe case estimation
 
-const data = {
+/* const data = {
   region: {
     name: 'Africa',
     avgAge: 23,
@@ -143,6 +143,6 @@ const data = {
 };
 
 const res1 = covid19ImpactEstimator(data);
-console.log(res1);
+console.log(res1); */
 
-// export default covid19ImpactEstimator;
+export default covid19ImpactEstimator;
