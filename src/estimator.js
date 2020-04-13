@@ -1,17 +1,33 @@
 const covid19ImpactEstimator = (data) => {
+  const reqTime = () => {
+    if (data.periodType === 'days') {
+      return 2 ** 1;
+    }
+    if (data.periodType === 'weeks') {
+      return 2 ** 2;
+    }
+    if (data.periodType === 'months') {
+      return 2 ** 9;
+    }
+
+    return 2;
+  };
   const temp = {
     data,
     impact: {
       currentlyInfected: Number(Math.floor(data.reportedCases * 10)),
-      infectionsByRequestedTime: Math.floor(data.reportedCases * 10 * 512),
+      infectionsByRequestedTime: Math.floor(
+        data.reportedCases * 10 * reqTime()
+      ),
       severeCasesByRequestedTime: Math.floor(
-        (15 / 100) * (data.reportedCases * 10 * 512)
+        (15 / 100) * (data.reportedCases * 10 * reqTime())
       ),
       hospitalBedsByRequestedTime: Math.floor(
-        0.35 * data.totalHospitalBeds - 0.15 * data.reportedCases * 10 * 512
+        0.35 * data.totalHospitalBeds
+          - 0.15 * data.reportedCases * 10 * reqTime()
       ),
       casesForICUByRequestedTime: Math.floor(
-        (5 / 100) * data.reportedCases * 10 * 512
+        (5 / 100) * data.reportedCases * 10 * reqTime()
       ),
       casesForVentilatorsByRequestedTime: Math.floor(
         (2 / 100) * (data.reportedCases * 10)
@@ -19,7 +35,7 @@ const covid19ImpactEstimator = (data) => {
       dollarsInFlight: Math.floor(
         (data.reportedCases
           * 10
-          * 512
+          * reqTime()
           * data.region.avgDailyIncomePopulation
           * data.region.avgDailyIncomeInUSD)
           / 30
@@ -27,24 +43,26 @@ const covid19ImpactEstimator = (data) => {
     },
     severeImpact: {
       currentlyInfected: Math.floor(data.reportedCases * 50),
-      infectionsByRequestedTime: Math.floor(data.reportedCases * 50 * 512),
+      infectionsByRequestedTime: Math.floor(
+        data.reportedCases * 50 * reqTime()
+      ),
       severeCasesByRequestedTime: Math.floor(
-        (15 / 100) * (data.reportedCases * 50 * 512)
+        (15 / 100) * (data.reportedCases * 50 * reqTime())
       ),
       hospitalBedsByRequestedTime: Math.floor(
         (35 / 100) * data.totalHospitalBeds
-          - (15 / 100) * (data.reportedCases * 50 * 512)
+          - (15 / 100) * (data.reportedCases * 50 * reqTime())
       ),
       casesForICUByRequestedTime: Math.floor(
-        (5 / 100) * (data.reportedCases * 50 * 512)
+        (5 / 100) * (data.reportedCases * 50 * reqTime())
       ),
       casesForVentilatorsByRequestedTime: Math.floor(
-        (2 / 100) * (data.reportedCases * 50 * 512)
+        (2 / 100) * (data.reportedCases * 50 * reqTime())
       ),
       dollarsInFlight: Math.floor(
         (data.reportedCases
           * 50
-          * 512
+          * reqTime()
           * data.region.avgDailyIncomePopulation
           * data.region.avgDailyIncomeInUSD)
           / 30
@@ -58,7 +76,7 @@ const covid19ImpactEstimator = (data) => {
     data.reportedCases * 10
     ),done
     infectionsByRequestedTime: Math.floor(
-      covid19ImpactEstimator.impact.currentlyInfected * 512
+      covid19ImpactEstimator.impact.currentlyInfected * reqTime()
     ),
     severeCasesByRequestedTime: Math.floor(
       (15 / 100) * covid19ImpactEstimator.impact.infectionsByRequestedTime
@@ -86,7 +104,7 @@ const covid19ImpactEstimator = (data) => {
       covid19ImpactEstimator.data.reportedCases * 50
     ),
     infectionsByRequestedTime: Math.floor(
-      covid19ImpactEstimator.severeImpact.currentlyInfected * 512
+      covid19ImpactEstimator.severeImpact.currentlyInfected * reqTime()
     ),
     severeCasesByRequestedTime: Math.floor(
       (15 / 100) * covid19ImpactEstimator.severeImpact.infectionsByRequestedTime
@@ -110,7 +128,7 @@ const covid19ImpactEstimator = (data) => {
   } */
 // your severe case estimation
 
-/* const data = {
+const data = {
   region: {
     name: 'Africa',
     avgAge: 23,
@@ -125,6 +143,6 @@ const covid19ImpactEstimator = (data) => {
 };
 
 const res1 = covid19ImpactEstimator(data);
-console.log(res1); */
+console.log(res1);
 
-export default covid19ImpactEstimator;
+// export default covid19ImpactEstimator;
